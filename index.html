@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>COVID-19 Calculator</title>
+  <meta name="author" content="Corey Rice">
+  <meta name="description" content="Spring 2020 semester grade calculator used during the COVID-19 crisis, for Mayfield High School.">
+  <meta name="keywords" content="grades,covid-19,calculator,semester,quarter,GPA,mayfield high school">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <style type="text/css">
+    #header{
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+    }
+    #header h1,h3{
+      text-align: center;
+    }
+    .main{
+      border-radius: 30px;
+      padding:8vh;
+      display:flex;
+      min-height: 65vh;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: larger;
+    }
+    .calculator{
+      padding:25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+    }
+    ul{
+      list-style-type:none;
+    }
+    button{
+      border-radius: 45px;
+      margin:15px;
+      padding:15px;
+      font-size: x-large;
+      background-color: white;
+      font-weight: 600;
+    }
+    footer{
+      text-align:center;
+    }
+  </style>
+  </head>
+  <body class="bg-dark">
+    <div id="header" class="text-white">
+      <h1>Mayfield High School</h1> 
+      <h3>COVID-19 Spring 2020 Grade Calculator</h3>
+      <img src="mayfield.png" style="width:150px;align-self: center;">
+    </div>
+    <div class="container main bg-secondary text-light">
+      <p>The stay at home order has been extraordinarily difficult for many reasons. Academically, some students have struggled while others have found great success learning remotely. To account for this, there will be no semester exams, and your overall grade will be calculated: 
+        <ul>
+          <li>40% from your Q3 grade</li> 
+          <li>40% from your Q4 grade</li>
+          <li>20% will come from the larger of either Q3 or Q4</li>
+        </ul>
+        </p> 
+      <p>While your effort matters in both quarters, the more successful quarter will have a larger impact on your overall grade.</p>
+      <div class="calculator">
+        <div>
+          <label for="q3">Quarter 3 Grade:</label>
+          <input type="number" id="q3" min="0" max="110" step="0.1" name="Q3-grade" data-toggle="tooltip" title="Enter your grade % in a class from quarter 3"> %
+        </div>
+        <div>
+          <label for="q3">Quarter 4 Grade:</label>
+          <input type="number" id="q4" min="0" max="110" step="0.1" name="Q4-grade" data-toggle="tooltip" title="Enter your expected grade % in the same class for quarter 4"> %
+        </div>
+        <button onClick="calculateGrade()">Calculate</button>
+
+        <h1>Semester grade: <span id="semester-grade" data-toggle="tooltip" title="Will calculate from data above">____</span></h1>
+      </div>
+    </div>
+    <footer class="container text-muted">
+      <p>This page was written by Corey Rice, a teacher at Mayfield High School. Hopefully this is helpful. <b>CTRL</b>/<b>⌘</b> + <b>U</b> to see how this works - no cookies.</p>
+      <p>Stay Safe ❤️ <a class="text-muted" target="_blank" href="https://coronavirus.ohio.gov/wps/portal/gov/covid-19/home">coronavirus.ohio.gov</a></p>
+    </footer>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();   
+    });
+    function calculateGrade()
+    {
+      const _q3 = parseFloat(document.getElementById("q3").value);
+      const _q4 = parseFloat(document.getElementById("q4").value);
+      let displayResults = true;
+
+      if( Number.isNaN(_q3) || Number.isNaN(_q4)){ 
+        alert("Grades input to form must be numbers. Try again...")
+        displayResults = false;
+        }
+
+      let semester = (0.4*_q3) + (0.4*_q4);
+      if( _q3 > _q4 ){
+        //quarter 3 had a better score
+        semester = semester + (0.2*_q3);
+      }else{
+        //quarter 4 had a better score
+        semester = semester + (0.2*_q4);
+      }
+
+      if(displayResults) document.getElementById("semester-grade").innerHTML = semester + "%";
+    }
+  </script>
+  </body>
+</html>
