@@ -10,13 +10,13 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style type="text/css">
-    #header{
+    nav{
       display:flex;
       flex-direction: column;
       align-items: center;
       padding: 1rem;
     }
-    #header h1,h3{
+    nav h1,h3{
       text-align: center;
     }
     .main{
@@ -41,11 +41,18 @@
     }
     button{
       border-radius: 45px;
+      background-color: white;
       margin:15px;
       padding:15px;
       font-size: x-large;
-      background-color: white;
       font-weight: 600;
+      letter-spacing: 3px;
+      transition: 0.25s;
+    }
+    button:hover{
+      background-color: black;
+      color:white;
+      transition: 0.25s;
     }
     footer{
       text-align:center;
@@ -53,11 +60,11 @@
   </style>
   </head>
   <body class="bg-dark">
-    <div id="header" class="text-white">
+    <nav id="header" class="text-white">
       <h1>Mayfield High School</h1> 
       <h3>COVID-19 Spring 2020 Grade Calculator</h3>
       <img src="mayfield.png" style="width:150px;align-self: center;">
-    </div>
+    </nav>
     <div class="container main bg-secondary text-light">
       <p>The stay at home order has been extraordinarily difficult for many reasons. Academically, some students have struggled while others have found great success learning remotely. To account for this, there will be no semester exams, and your overall grade will be calculated: 
         <ul>
@@ -82,7 +89,7 @@
       </div>
     </div>
     <footer class="container text-muted">
-      <p>This page was written by Corey Rice, a teacher at Mayfield High School. Hopefully this is helpful. <b>CTRL</b>/<b>⌘</b> + <b>U</b> to see how this works - no cookies.</p>
+      <p>This page was written by Rice + Rutigliano, teachers at Mayfield High School. Hopefully this is helpful. <b>CTRL</b>/<b>⌘</b> + <b>U</b> to see how this works - no cookies.</p>
       <p>Stay Safe ❤️ <a class="text-muted" target="_blank" href="https://github.com/MHSMrRice/covid-calc"><i class="fa fa-github-alt"></i></a> <a class="text-muted" target="_blank" href="https://coronavirus.ohio.gov/wps/portal/gov/covid-19/home">coronavirus.ohio.gov</a></p>
     </footer>
 
@@ -96,12 +103,21 @@
       const _q4 = parseFloat(document.getElementById("q4").value);
       let displayResults = true;
 
+      //throw a browser alert if either entry is not a number
       if( Number.isNaN(_q3) || Number.isNaN(_q4)){ 
-        alert("Grades input to form must be numbers. Try again...")
-        displayResults = false;
+        alert("Grades input to form must be numbers. Try again...");
+        displayResults = false; //and don't show the NaN results
         }
 
+      //throw a browser alert if either entry is not a number
+      if( _q3 > 110 || _q3 < 0 || _q4 > 110 || _q4 < 0 ){ 
+        alert("Grades must range from 0% to ~100%. Try again...");
+        displayResults = false; //and don't show the NaN results
+        }
+
+      //define the semester grades variable and input the scores from both quarters
       let semester = (0.4*_q3) + (0.4*_q4);
+
       if( _q3 > _q4 ){
         //quarter 3 had a better score
         semester = semester + (0.2*_q3);
@@ -110,7 +126,10 @@
         semester = semester + (0.2*_q4);
       }
 
-      if(displayResults) document.getElementById("semester-grade").innerHTML = semester.toFixed(2) + "%";
+      //round the results to 2 decimal places, maximum
+      semester = + semester.toFixed(2); 
+
+      if(displayResults) document.getElementById("semester-grade").innerHTML = semester + "%";
     }
   </script>
   </body>
