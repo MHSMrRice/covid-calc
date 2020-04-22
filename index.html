@@ -152,7 +152,12 @@
       const result = letterGrades.find(element => element[0] <= _per);
 
       document.getElementById("letter-grade").innerHTML = result[1];
-      if(_per < 70) document.getElementById("in-progress").style.display = "block";
+      const ip = document.getElementById("in-progress");
+      if(_per < 70){
+        ip.style.display = "block";
+      }else{
+        ip.style.display = "none";
+      }
     }
   </script>
   </body>
