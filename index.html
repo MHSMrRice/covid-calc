@@ -87,6 +87,8 @@
         <button onClick="calculateGrade()">Calculate</button>
 
         <h1>Semester grade: <span id="semester-grade" data-toggle="tooltip" title="Will calculate from data above">____</span></h1>
+        <h3>Letter grade: <span id="letter-grade" data-toggle="tooltip" title="Will calculate from data above">____</span></h3>
+        <p style="display:none;text-align: center;" id="in-progress"><i>An in-progress grade provides a limited opportunity to finish the work, and get back on track. Talk to your counselor or teachers for more information.</i></p>
       </div>
     </div>
     <footer class="container text-muted">
@@ -131,6 +133,26 @@
       semester = + semester.toFixed(2); 
 
       if(displayResults) document.getElementById("semester-grade").innerHTML = semester + "%";
+      letterGrade(semester);
+    }
+
+    function letterGrade(percent){
+      const _per = percent;
+      const letterGrades = [
+        [93,"A"],
+        [90,"A-"],
+        [87,"B+"],
+        [83,"B"],
+        [80,"B-"],
+        [77,"C+"],
+        [73,"C"],
+        [70,"C-"],
+        [0,"In Progress"]];
+
+      const result = letterGrades.find(element => element[0] <= _per);
+
+      document.getElementById("letter-grade").innerHTML = result[1];
+      if(_per < 70) document.getElementById("in-progress").style.display = "block";
     }
   </script>
   </body>
